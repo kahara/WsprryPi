@@ -3,6 +3,7 @@ prefix = /usr/local
 LED_PIN = -DLED_PIN=18
 CXXFLAGS += -Wall -Werror -fmax-errors=5
 CXXFLAGS += -Wno-psabi -lstdc++fs -std=c++17
+CXXFLAGS += -g
 LDLIBS += -lm -lbcm_host
 OUT = wspr
 
@@ -12,7 +13,7 @@ mailbox.o:
 	$(CXX) $(CXXFLAGS) -c mailbox.c
 
 wspr: ver brh mailbox.o
-	$(CXX) $(CXXFLAGS) $(LED_PIN) -DMAKE_SRC_TAG="$(VER)" -DMAKE_SRC_BRH="$(BRH)" mailbox.o wspr.cpp -o$(OUT) $(LDLIBS)
+	$(CXX) $(CXXFLAGS) $(LED_PIN) -DMAKE_SRC_TAG="$(VER)" -DMAKE_SRC_BRH="$(BRH)" mailbox.o wspr.cpp -o$(OUT) $(LDLIBS) -L/opt/vc/lib -I/opt/vc/include
 
 ver:
 	$(eval VER:=$(shell git describe --tags))
